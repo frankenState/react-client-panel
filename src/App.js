@@ -9,15 +9,17 @@ import Container from '@material-ui/core/Container';
 
 import ButtonAppBar from './components/layouts/ButtonAppbar';
 import Dashboard from './components/layouts/Dashboard';
+import AddClient from './components/clients/AddClient';
 
 function App() {
   return (
   	<Provider store={store}>
-      <Router>
+      <Router> 
         <ButtonAppBar/>
         <Container maxWidth="sm">
           <Switch>
-            <Route exect path="/" component={Dashboard} />
+            <Route exact path="/" component={Dashboard} />
+            <Route exact path="/client/new" component={AddClient} />
           </Switch>
         </Container>
       </Router>

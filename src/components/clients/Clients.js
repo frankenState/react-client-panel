@@ -5,6 +5,9 @@ import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import PropTypes from 'prop-types';
 
+import Spinner from '../layouts/Spinner';
+import Balance from '../layouts/Balance';
+
 import Typography from '@material-ui/core/Typography';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -14,13 +17,30 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
+import Grid from '@material-ui/core/Grid';
 
 class Clients extends React.Component {
+
+	state = {
+		totalOwed: null
+	}
+
+	componentDidUpdate(prevProps){
+		if (this.props.clients !== prevProps.clients){
+			this.setState({
+				totalOwed: this.props.clients.reduce(
+					(total, client) => {
+						return total + parseFloat(client.balance.toString());
+					}, 0
+				)
+			})
+		}
+	}
+
 	render() {
 
-		console.log(this.props);
-
 		const { clients }  = this.props;
+		const { totalOwed } = this.state;
 
 		if (clients){
 
@@ -31,6 +51,10 @@ class Clients extends React.Component {
 		            >
 		                Clients
 		            </Typography>
+
+		           <Balance
+		           		label={`Total Balance: ${totalOwed}`}
+		           />
 
 		            <Table>
 		            	<TableHead>
@@ -67,7 +91,7 @@ class Clients extends React.Component {
 			);
 
 		} else {
-			return <h1>Loading</h1>;
+			return <Spinner/>
 		}
 
 		
