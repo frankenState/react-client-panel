@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-
-
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { firestoreConnect } from 'react-redux-firebase';
+import PropTypes from 'prop-types';
 
 import Typography from '@material-ui/core/Typography';
 import Table from '@material-ui/core/Table';
@@ -16,14 +18,9 @@ import Link from '@material-ui/core/Link';
 class Clients extends React.Component {
 	render() {
 
-		const clients = [{
-			id: '123123',
-			firstName: 'Frank',
-			lastName:'Ubay',
-			email:'ubayfrank@gmail.com',
-			phone: '555-555-5555',
-			balance: '30'
-		}];
+		console.log(this.props);
+
+		const { clients }  = this.props;
 
 		if (clients){
 
@@ -46,7 +43,10 @@ class Clients extends React.Component {
 		            	</TableHead>
 		            	<TableBody>
 		            		{clients.map( client => (
-		            			<TableRow key="client.id">
+		            			<TableRow 
+		            				key={client.id}
+		            				hover={true}
+		            			>
 		            				<TableCell>{client.firstName} {client.lastName}</TableCell>
 		            				<TableCell>{ client.email }</TableCell>
 		            				<TableCell>{ '$' + parseFloat(client.balance).toFixed(2) }</TableCell>
@@ -74,4 +74,14 @@ class Clients extends React.Component {
 	}
 }
 
-export default Clients;
+Clients.propTypes = {
+	firestore: PropTypes.object.isRequired,
+	clients: PropTypes.array
+}
+
+export default compose(
+	firestoreConnect([{ collection: 'clients' }]),
+	connect((state, props) => ({
+		clients: state.firestore.ordered.clients
+	}))
+)(Clients);
