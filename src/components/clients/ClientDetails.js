@@ -71,6 +71,14 @@ class ClientDetails extends Component {
 		})
 	}
 
+	deleteClient = () => {
+		const { client, firestore, history } = this.props;
+
+		firestore.delete(
+			{collection: 'clients', doc: client.id}
+		).then(history.push('/'));
+	}
+
 	render() {
 
 		const classes = Css();
@@ -98,6 +106,7 @@ class ClientDetails extends Component {
 							onChange={this.updateAmount}
 							value={this.state.balanceUpdateAmount}
 							saveAmount={this.saveAmount}
+							deleteClick={this.deleteClient}
 						/>
 					</Grid>
 				</Grid>

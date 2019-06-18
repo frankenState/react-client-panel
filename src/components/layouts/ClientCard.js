@@ -158,7 +158,9 @@ function ClientCard(props) {
               </Fab>
             </Box>
             <Box>
-              <Fab aria-label="Delete" className={classes.delete}>
+              <Fab
+                 onClick={props.deleteClick}
+                 aria-label="Delete" className={classes.delete}>
                 <Delete />
               </Fab>
             </Box>
@@ -175,7 +177,8 @@ ClientCard.propTypes = {
   onChange: PropTypes.func.isRequired,
   showInput: PropTypes.bool.isRequired,
   value: PropTypes.string.isRequired,
-  saveAmount: PropTypes.func.isRequired
+  saveAmount: PropTypes.func.isRequired,
+  deleteClick: PropTypes.func.isRequired
 }
 
 export default ClientCard;
