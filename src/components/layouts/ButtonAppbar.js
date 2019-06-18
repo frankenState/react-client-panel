@@ -1,5 +1,9 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { firebaseConnect } from 'react-redux-firebase';
 
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
@@ -23,29 +27,67 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function ButtonAppBar() {
-  const classes = useStyles();
-
-  return (
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" className={classes.title}>
-            <Link 
-              
-              component={RouterLink} 
-              to="/" 
-              style={{
-                color:'#fff',
-                textDecoration:"none"
-              }}
-            >
-              Client Panel
-            </Link>
-          </Typography>
-          <Button color="inherit">Login</Button>
-        </Toolbar>
-      </AppBar>
-    </div>
-  );
+const Css = () => {
+  return useStyles;
 }
+
+class ButtonAppbar extends Component {
+ 
+  state = {
+    isAuthenticated: false
+  }
+
+  static getDerivedStateFromProps = (props, state) => {
+    const { auth } = props;
+
+    if (auth.uid){
+      return { isAuthenticated: true }
+    } else return {isAuthenticated: false}
+  
+  }
+
+  render() {
+
+    const classes = Css();
+
+    const { isAuthenticated } = this.state;
+
+    const { auth } = this.props;
+
+    return (
+      <div className={classes.root}>
+        <AppBar position="static">
+          <Toolbar>
+            <Typography variant="h6" className={classes.title}>
+              { isAuthenticated ? (
+                  <Link 
+                    component={RouterLink} 
+                    to="/" 
+                    style={{
+                      color:'#fff',
+                      textDecoration:"none"
+                    }}
+                  >
+                    Client Panel
+                  </Link>
+              ) : null }
+            </Typography>
+            <Button color="inherit">Login</Button>
+          </Toolbar>
+        </AppBar>
+      </div>
+    );
+  }
+}
+
+ButtonAppbar.propTypes = {
+  firebase: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired
+}
+
+export default compose(
+  firebaseConnect(),
+  connect((state, props) => ({
+    auth: state.firebase.auth
+  }))
+)(ButtonAppbar);
