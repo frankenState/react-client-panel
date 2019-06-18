@@ -10,6 +10,7 @@ import Container from '@material-ui/core/Container';
 import ButtonAppBar from './components/layouts/ButtonAppbar';
 import Dashboard from './components/layouts/Dashboard';
 import AddClient from './components/clients/AddClient';
+import ClientDetails from './components/clients/ClientDetails';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Switch>
             <Route exact path="/" component={Dashboard} />
             <Route exact path="/client/new" component={AddClient} />
+            <Route exact path="/client/:id" component={ClientDetails} />
           </Switch>
         </Container>
       </Router>
