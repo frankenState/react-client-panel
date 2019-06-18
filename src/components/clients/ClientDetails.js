@@ -38,6 +38,38 @@ const Css = () => {
 
 class ClientDetails extends Component {
 	
+	state = {
+		showBalanceUpdate: false,
+		balanceUpdateAmount: ''
+	}
+
+	toggle = () => {
+		this.setState({
+			showBalanceUpdate: !this.state.showBalanceUpdate
+		});
+	}
+
+	saveAmount = () => {
+		this.toggle();
+		
+		const { client, firestore } = this.props;
+		const { balanceUpdateAmount } = this.state;
+
+		const clientUpdate = {
+			balance: parseFloat(balanceUpdateAmount)
+		};
+
+		firestore.update(
+			{collection: 'clients', doc: client.id},
+			 clientUpdate
+		);
+	}
+
+	updateAmount = (e) => {
+		this.setState({
+			balanceUpdateAmount: e.target.value
+		})
+	}
 
 	render() {
 
@@ -61,6 +93,11 @@ class ClientDetails extends Component {
 					<Grid item xs={12}>
 						<ClientCard
 							client={client}
+							toggle={this.toggle}
+							showInput={this.state.showBalanceUpdate}
+							onChange={this.updateAmount}
+							value={this.state.balanceUpdateAmount}
+							saveAmount={this.saveAmount}
 						/>
 					</Grid>
 				</Grid>
