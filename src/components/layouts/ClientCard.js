@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -153,7 +154,13 @@ function ClientCard(props) {
             justifyContent="flex-end"
           >
             <Box>
-              <Fab color="primary" aria-label="Add" className={classes.fab}>
+              <Fab 
+                component={RouterLink}
+                to={`./edit/${id}`}
+                color="primary" 
+                aria-label="Add" 
+                className={classes.fab}
+              >
                 <Create />
               </Fab>
             </Box>

@@ -11,6 +11,7 @@ import ButtonAppBar from './components/layouts/ButtonAppbar';
 import Dashboard from './components/layouts/Dashboard';
 import AddClient from './components/clients/AddClient';
 import ClientDetails from './components/clients/ClientDetails';
+import EditClient from './components/clients/EditClient';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route exact path="/" component={Dashboard} />
             <Route exact path="/client/new" component={AddClient} />
             <Route exact path="/client/:id" component={ClientDetails} />
+            <Route exact path="/client/edit/:id" component={EditClient} />
           </Switch>
         </Container>
       </Router>

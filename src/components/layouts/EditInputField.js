@@ -33,10 +33,10 @@ const InputField = (props) => {
 	        label={props.label}
 	        type={props.type}
 	        name={props.name}
-	        onChange={props.onChange}
-	        value={props.value}
+	        defaultValue={props.value}
 	        className={clsx(classes.textField, classes.dense)}
 	        margin="dense"
+	        ref={props.ref}
 	        required
 
 	      />
@@ -47,7 +47,7 @@ InputField.propTypes = {
 	label: PropTypes.string.isRequired,
 	type: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
-	onChange: PropTypes.func.isRequired
+	value: PropTypes.string.isRequired
 }
 
 export default InputField;
