@@ -72,7 +72,10 @@ class ButtonAppbar extends Component {
                   </Link>
               ) : null }
             </Typography>
-            <Button color="inherit">Login</Button>
+            <Button
+              component={RouterLink}
+              to="/login"
+             color="inherit">Login</Button>
           </Toolbar>
         </AppBar>
       </div>

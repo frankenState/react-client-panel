@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { UserIsAuthenticated, UserIsNotAuthenticated } from './helpers/auth';
 import './App.css';
 
 import { Provider } from 'react-redux';
@@ -21,11 +22,11 @@ function App() {
         <ButtonAppBar/>
         <Container maxWidth="sm">
           <Switch>
-            <Route exact path="/" component={Dashboard} />
-            <Route exact path="/client/new" component={AddClient} />
-            <Route exact path="/client/:id" component={ClientDetails} />
-            <Route exact path="/client/edit/:id" component={EditClient} />
-            <Route exact path="/login" component={Login} />
+            <Route exact path="/" component={ UserIsAuthenticated(Dashboard) } />
+            <Route exact path="/client/new" component={ UserIsAuthenticated(AddClient) } />
+            <Route exact path="/client/:id" component={ UserIsAuthenticated(ClientDetails) } />
+            <Route exact path="/client/edit/:id" component={ UserIsAuthenticated(EditClient) } />
+            <Route exact path="/login" component={ UserIsNotAuthenticated(Login) } />
           </Switch>
         </Container>
       </Router>
